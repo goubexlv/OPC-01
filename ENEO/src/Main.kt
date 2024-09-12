@@ -1,6 +1,7 @@
 import java.util.Scanner
 
 data class Clients(val nomClient: String, val numCompteur: Int, var consommation: Double, var netPayer:Double = 0.0)
+class consommationanormalexeption(message: String) : Exception(message)
 
 fun List<Double>.moyenneConsommations(): Double {
     if (this.isEmpty()) return 0.0
@@ -33,16 +34,16 @@ fun main() {
 
     do{
         println("1- Ajouter un client\n" +
-                "2- Calcul des facture \n" +
+                "2- Calculer les factures avec précision \n" +
                 "3- Détecter les anomalies de consommation\n" +
-                "4- Détecter les anomalies de consommation")
+                "4- Fournir un résumé global de la consommation des clients")
 
         choix = 1
         when(choix){
             1 -> listeClients.add(CreeClient())
             2 -> {
                 println("###########################################")
-                println("Calcul des facture !")
+                println("Calculer les factures avec précision")
                 println("###########################################")
                 for(i in 0..listeClients.size){
                     if(verifi_consommation(listeClients[i].consommation)) {
@@ -51,7 +52,19 @@ fun main() {
                 }
             }
 
-            3 ->
+            3 -> {
+                println("###########################################")
+                println("Détecter les anomalies de consommation")
+                println("###########################################")
+                for(i in 0..listeClients.size){
+                    println("Client $i\n" +
+                            "Nom : ${listeClients[i].netPayer}\n" +
+                            "facturation : ${listeClients[i].netPayer} XAF\n" +
+                            "Anormali : ${Detection_anomalie(listeClients[i].netPayer)}")
+                    println("///////////////////////////////////////////")
+
+                }
+            }
             else -> println("Choix non disponible")
         }
 
@@ -98,13 +111,18 @@ fun CreeClient() : Clients {
     return Clients(nomClient, numCompteur, consommation)
 }
 
-fun CalculerFacturationclients(){
-    println("###########################################")
-    println("Claculer facturation client !")
-    println("###########################################")
+fun Detection_anomalie(consommation : Double){
 
-
-
+    return try {
+        if (consommation > 50) {
+            throw consommationanormalexeption("La consommation $consommation est anormale.")
+        }
+        println("La consommation $consommation est valide.")
+    } catch (e: consommationanormalexeption) {
+        println("Erreur : ${e.message}")
+    } finally {
+        println("Vérification terminée.")
+    }
 
 }
 
