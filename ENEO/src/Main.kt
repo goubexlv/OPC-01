@@ -33,8 +33,8 @@ fun main() {
 
     do{
         println("1- Ajouter un client\n" +
-                "2- Calculer la facture d'un client\n" +
-                "3- Calculer la facture de tout les client\n" +
+                "2- Calcul des facture \n" +
+                "3- Détecter les anomalies de consommation\n" +
                 "4- Détecter les anomalies de consommation")
 
         choix = 1
@@ -42,16 +42,16 @@ fun main() {
             1 -> listeClients.add(CreeClient())
             2 -> {
                 println("###########################################")
-                println("Claculer facturation client !")
+                println("Calcul des facture !")
                 println("###########################################")
-                afficherClient(listeClients)
-                val console  = Scanner(System.`in`)
-                println("Choigissez le client :")
-                val idclient = console.nextInt()
-                if(verifi_consommation(listeClients[idclient].consommation)) {
-                    listeClients[idclient].netPayer = tauxConsommation*listeClients[0].consommation
+                for(i in 0..listeClients.size){
+                    if(verifi_consommation(listeClients[i].consommation)) {
+                        listeClients[i].netPayer = tauxConsommation*listeClients[i].consommation
+                    }
                 }
             }
+
+            3 ->
             else -> println("Choix non disponible")
         }
 
@@ -102,6 +102,8 @@ fun CalculerFacturationclients(){
     println("###########################################")
     println("Claculer facturation client !")
     println("###########################################")
+
+
 
 
 }
